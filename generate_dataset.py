@@ -120,7 +120,7 @@ class DataDownloader:
                 # sometimes this fails because of known issues of pytube and unknown factors
                 yt = YouTube(data.url)
                 stream = yt.streams.filter(res='720p').first()
-                stream.download('./', 'current_' + mode)
+                stream.download(filename='current_' + mode)
             except:
                 failure_log = open('failed_videos_' + mode + '.txt', 'a')
                 for seqname in data.list_seqnames:
@@ -130,10 +130,7 @@ class DataDownloader:
 
             sleep(1)
 
-            videoname_candinate_list = glob.glob('./*')
-            for videoname_candinate in videoname_candinate_list:
-                if videoname_candinate.split('.')[-2] == '/current_' + mode:
-                    videoname = videoname_candinate
+            videoname = 'current_' + mode
 
             if len(data) == 1:  # len(data) is len(data.list_seqnames)
                 process(data, 0, videoname, self.output_root)
